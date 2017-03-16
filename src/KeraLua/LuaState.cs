@@ -4,9 +4,8 @@ using System.Text;
 
 namespace KeraLua
 {
-	public struct LuaState
+	public struct LuaState :IEquatable<LuaState>
 	{
-
 		public LuaState (IntPtr ptrState)
 
 			: this ()
@@ -19,10 +18,24 @@ namespace KeraLua
 			return new LuaState (ptr);
 		}
 
-
 		static public implicit operator IntPtr (LuaState luastate)
 		{
 			return luastate.state;
+		}
+
+		public override int GetHashCode()
+		{
+			return state.GetHashCode();
+		}
+
+		public override bool Equals(object obj)
+		{
+			return state.Equals(obj);
+		}
+
+		bool IEquatable<LuaState>.Equals(LuaState other)
+		{
+			return state == other.state;
 		}
 
 		IntPtr state;
